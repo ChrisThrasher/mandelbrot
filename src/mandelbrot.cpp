@@ -106,6 +106,12 @@ try {
                 origin = Complex(extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
                                  extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag());
                 break;
+            case sf::Event::MouseWheelScrolled:
+                if (event.mouseWheelScroll.delta > 0.0f)
+                    extent /= 1.2;
+                else if (event.mouseWheelScroll.delta < 0.0f)
+                    extent *= 1.2;
+                break;
             default:
                 break;
             }

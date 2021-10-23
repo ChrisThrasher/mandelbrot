@@ -24,6 +24,7 @@ cmake --build build
 | Button | Control     |
 | ------ | ----------- |
 | Click  | Go to point |
+| Scroll | Zoom in/out |
 | W      | Zoom in     |
 | S      | Zoom out    |
 | Up     | Pan up      |
