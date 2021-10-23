@@ -102,6 +102,10 @@ try {
                     break;
                 }
                 break;
+            case sf::Event::MouseButtonPressed:
+                origin = Complex(extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
+                                 extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag());
+                break;
             default:
                 break;
             }

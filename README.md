@@ -21,11 +21,12 @@ cmake --build build
 
 # Controls
 
-| Button | Control   |
-| ------ | --------- |
-| W      | Zoom in   |
-| S      | Zoom out  |
-| Up     | Pan up    |
-| Down   | Pan down  |
-| Left   | Pan left  |
-| Right  | Pan right |
+| Button | Control     |
+| ------ | ----------- |
+| Click  | Go to point |
+| W      | Zoom in     |
+| S      | Zoom out    |
+| Up     | Pan up      |
+| Down   | Pan down    |
+| Left   | Pan left    |
+| Right  | Pan right   |
