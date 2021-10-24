@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
 
+find_package(Threads REQUIRED)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
@@ -13,7 +15,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
 endif()
 
 add_executable(mandelbrot src/mandelbrot.cpp)
-target_link_libraries(mandelbrot PRIVATE sfml-graphics sfml-window)
+target_link_libraries(mandelbrot PRIVATE sfml-graphics sfml-window Threads::Threads)
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.cpp *.h`
