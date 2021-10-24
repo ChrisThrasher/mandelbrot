@@ -21,9 +21,10 @@ cmake --build build
 
 # Controls
 
-| Action      | Control         |
-| ----------- | --------------- |
-| Go to point | Click           |
-| Zoom        | Scroll (or W/S) |
-| Pan         | Arrow keys      |
-| Reset view  | R               |
+| Action            | Control         |
+| ----------------- | --------------- |
+| Go to point       | Click           |
+| Zoom              | Scroll (or W/S) |
+| Pan               | Arrow keys      |
+| Change iterations | [ and ]         |
+| Reset view        | R               |
