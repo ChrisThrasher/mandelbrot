@@ -56,6 +56,7 @@ try {
     constexpr auto length = 800u;
     constexpr auto initial_origin = Complex(-0.5, 0.0);
     constexpr auto initial_extent = 2.5;
+    constexpr auto framerate = 60; // frames per second
 
     // Heap allocate to accomodate systems with small (<1MB) stack sizes
     auto pixels = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
@@ -76,8 +77,6 @@ try {
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
     while (window.isOpen()) {
-        auto next = then + std::chrono::milliseconds(1000 / 60);
-
         auto event = sf::Event();
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -160,7 +159,7 @@ try {
         std::cout << '\r' << std::setw(4) << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
                   << " ms" << std::flush;
 
-        std::this_thread::sleep_until(next);
+        std::this_thread::sleep_until(then + std::chrono::milliseconds(1000 / framerate));
         then = now;
     }
 } catch (const std::exception& ex) {
