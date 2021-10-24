@@ -21,9 +21,7 @@ static auto Calculate(const Complex& c)
 
 static auto Color(const int iterations)
 {
-    int hue = iterations;
-    while (hue > 360)
-        hue -= 360;
+    const auto hue = iterations % 360;
 
     const float sat = 1.0f;
     const float val = (g_max_iterations == iterations) ? 0.0f : 1.0f;
