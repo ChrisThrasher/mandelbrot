@@ -56,9 +56,11 @@ static auto Color(const int iterations)
 int main()
 try {
     constexpr auto length = 800u;
+    constexpr auto initial_origin = Complex(-0.5, 0.0);
+    constexpr auto initial_extent = 2.5;
 
-    auto origin = Complex(-0.5, 0.0);
-    auto extent = 2.5;
+    auto origin = initial_origin;
+    auto extent = initial_extent;
     auto pixels = std::array<std::array<sf::Color, length>, length>();
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto then = std::chrono::steady_clock::now();
@@ -97,6 +99,10 @@ try {
                     break;
                 case sf::Keyboard::S:
                     extent *= 1.5;
+                    break;
+                case sf::Keyboard::R:
+                    origin = initial_origin;
+                    extent = initial_extent;
                     break;
                 default:
                     break;

@@ -31,3 +31,4 @@ cmake --build build
 | Down   | Pan down    |
 | Left   | Pan left    |
 | Right  | Pan right   |
+| R      | Reset view  |
