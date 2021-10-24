@@ -57,17 +57,19 @@ try {
     constexpr auto initial_origin = Complex(-0.5, 0.0);
     constexpr auto initial_extent = 2.5;
 
+    // Heap allocate to accomodate systems with small (<1MB) stack sizes
+    auto pixels = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
+
     auto origin = initial_origin;
     auto extent = initial_extent;
-    auto pixels = std::array<std::array<sf::Color, length>, length>();
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto then = std::chrono::steady_clock::now();
 
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
-                pixels[j][i] = Color(Calculate(Complex((double)i * extent / length - extent / 2 + origin.real(),
-                                                       (double)j * extent / length - extent / 2 - origin.imag())));
+                (*pixels)[j][i] = Color(Calculate(Complex((double)i * extent / length - extent / 2 + origin.real(),
+                                                          (double)j * extent / length - extent / 2 - origin.imag())));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
@@ -135,7 +137,7 @@ try {
             thread.join();
 
         auto image = sf::Image();
-        image.create(length, length, (sf::Uint8*)pixels.data());
+        image.create(length, length, (sf::Uint8*)pixels->data());
         auto texture = sf::Texture();
         texture.loadFromImage(image);
 
