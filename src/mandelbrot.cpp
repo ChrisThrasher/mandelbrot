@@ -65,6 +65,8 @@ try {
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto then = std::chrono::steady_clock::now();
 
+    bool recalculate = true;
+
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
@@ -74,6 +76,8 @@ try {
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
     while (window.isOpen()) {
+        auto next = then + std::chrono::milliseconds(1000 / 60);
+
         auto event = sf::Event();
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -113,16 +117,19 @@ try {
                 default:
                     break;
                 }
+                recalculate = true;
                 break;
             case sf::Event::MouseButtonPressed:
                 origin = Complex(extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
                                  extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag());
+                recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
                 if (event.mouseWheelScroll.delta > 0.0f)
                     extent /= 1.2;
                 else if (event.mouseWheelScroll.delta < 0.0f)
                     extent *= 1.2;
+                recalculate = true;
                 break;
             default:
                 break;
@@ -131,10 +138,14 @@ try {
 
         window.clear();
 
-        for (size_t i = 0; i < threads.size(); ++i)
-            threads[i] = std::thread(render_rows, i * length / threads.size(), (i + 1) * length / threads.size());
-        for (auto& thread : threads)
-            thread.join();
+        if (recalculate) {
+            recalculate = false;
+
+            for (size_t i = 0; i < threads.size(); ++i)
+                threads[i] = std::thread(render_rows, i * length / threads.size(), (i + 1) * length / threads.size());
+            for (auto& thread : threads)
+                thread.join();
+        }
 
         auto image = sf::Image();
         image.create(length, length, (sf::Uint8*)pixels->data());
@@ -148,6 +159,8 @@ try {
         const auto elapsed = now - then;
         std::cout << '\r' << std::setw(4) << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
                   << " ms" << std::flush;
+
+        std::this_thread::sleep_until(next);
         then = now;
     }
 } catch (const std::exception& ex) {
