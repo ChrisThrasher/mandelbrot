@@ -119,8 +119,9 @@ try {
                 recalculate = true;
                 break;
             case sf::Event::MouseButtonPressed:
-                origin = { extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
-                           extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag() };
+                origin = origin
+                    + extent / length
+                        * Complex(event.mouseButton.x - (int)length / 2, -event.mouseButton.y + (int)length / 2);
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
