@@ -22,15 +22,14 @@ static auto Calculate(const Complex& c)
 static auto Color(const int iterations)
 {
     const auto hue = iterations % 360;
+    const auto sat = 1.0f;
+    const auto val = (g_max_iterations == iterations) ? 0.0f : 1.0f;
 
-    const float sat = 1.0f;
-    const float val = (g_max_iterations == iterations) ? 0.0f : 1.0f;
-
-    const int h = hue / 60;
-    const float f = (float)hue / 60 - h;
-    const float p = val * (1.0f - sat);
-    const float q = val * (1.0f - sat * f);
-    const float t = val * (1.0f - sat * (1.0f - f));
+    const auto h = hue / 60;
+    const auto f = (float)hue / 60 - h;
+    const auto p = val * (1.0f - sat);
+    const auto q = val * (1.0f - sat * f);
+    const auto t = val * (1.0f - sat * (1.0f - f));
 
     switch (h) {
     default:
