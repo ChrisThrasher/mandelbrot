@@ -155,9 +155,9 @@ try {
         window.display();
 
         const auto now = std::chrono::steady_clock::now();
-        const auto elapsed = now - then;
-        std::cout << '\r' << std::setw(4) << std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()
-                  << " ms" << std::flush;
+        const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - then);
+        const auto framerate = 1'000'000 / elapsed.count();
+        std::cout << '\r' << std::setw(4) << framerate << " fps" << std::flush;
         then = now;
     }
 } catch (const std::exception& ex) {
