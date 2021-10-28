@@ -69,8 +69,8 @@ try {
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
-                (*pixels)[j][i] = Color(Calculate({ (double)i * extent / length - extent / 2 + origin.real(),
-                                                    (double)j * extent / length - extent / 2 - origin.imag() }));
+                (*pixels)[i][j]
+                    = Color(Calculate(extent * Complex((double)j / length - 0.5, -(double)i / length + 0.5) + origin));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
