@@ -70,8 +70,8 @@ try {
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
-                (*pixels)[j][i] = Color(Calculate(Complex((double)i * extent / length - extent / 2 + origin.real(),
-                                                          (double)j * extent / length - extent / 2 - origin.imag())));
+                (*pixels)[j][i] = Color(Calculate({ (double)i * extent / length - extent / 2 + origin.real(),
+                                                    (double)j * extent / length - extent / 2 - origin.imag() }));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
@@ -86,16 +86,16 @@ try {
             case sf::Event::KeyPressed:
                 switch (event.key.code) {
                 case sf::Keyboard::Up:
-                    origin = Complex(origin.real(), origin.imag() + extent / 25.0);
+                    origin = { origin.real(), origin.imag() + extent / 25.0 };
                     break;
                 case sf::Keyboard::Down:
-                    origin = Complex(origin.real(), origin.imag() - extent / 25.0);
+                    origin = { origin.real(), origin.imag() - extent / 25.0 };
                     break;
                 case sf::Keyboard::Left:
-                    origin = Complex(origin.real() - extent / 25.0, origin.imag());
+                    origin = { origin.real() - extent / 25.0, origin.imag() };
                     break;
                 case sf::Keyboard::Right:
-                    origin = Complex(origin.real() + extent / 25.0, origin.imag());
+                    origin = { origin.real() + extent / 25.0, origin.imag() };
                     break;
                 case sf::Keyboard::W:
                     extent /= 1.5;
@@ -119,8 +119,8 @@ try {
                 recalculate = true;
                 break;
             case sf::Event::MouseButtonPressed:
-                origin = Complex(extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
-                                 extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag());
+                origin = { extent * (event.mouseButton.x - (int)length / 2) / (double)length + origin.real(),
+                           extent * -(event.mouseButton.y - (int)length / 2) / (double)length + origin.imag() };
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
