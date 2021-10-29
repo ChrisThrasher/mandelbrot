@@ -12,7 +12,7 @@ static int g_max_iterations { 250 };
 static auto Calculate(const Complex& c)
 {
     auto iterations = 0;
-    for (auto z = Complex(); std::abs(z) <= 2 && iterations < g_max_iterations; ++iterations)
+    for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < g_max_iterations; ++iterations)
         z = z * z + c;
     return iterations;
 }
