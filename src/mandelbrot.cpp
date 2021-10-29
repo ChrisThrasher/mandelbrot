@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 
 #include <array>
-#include <chrono>
 #include <complex>
 #include <iomanip>
 #include <iostream>
@@ -62,7 +61,7 @@ try {
     auto origin = initial_origin;
     auto extent = initial_extent;
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
-    auto then = std::chrono::steady_clock::now();
+    auto clock = sf::Clock();
     auto recalculate = true;
     auto font = sf::Font();
     if (!font.loadFromFile(std::string(FONT_PATH) + "/font.ttf"))
@@ -162,10 +161,8 @@ try {
         window.draw(text);
         window.display();
 
-        const auto now = std::chrono::steady_clock::now();
-        const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - then);
-        const auto framerate = 1'000'000 / elapsed.count();
-        then = now;
+        const auto framerate = 1'000'000 / clock.getElapsedTime().asMicroseconds();
+        clock.restart();
 
         auto text_builder = std::ostringstream();
         text_builder << std::setw(4) << framerate << " fps\n";
