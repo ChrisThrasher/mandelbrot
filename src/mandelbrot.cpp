@@ -71,6 +71,7 @@ int main()
     text.setFillColor(sf::Color::White);
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color::Black);
+    text.setPosition(sf::Vector2f(10.0f, 5.0f));
 
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
@@ -166,7 +167,7 @@ int main()
         auto text_builder = std::ostringstream();
         text_builder << std::setw(4) << framerate << " fps\n";
         text_builder << std::setw(4) << g_max_iterations << " iters\n";
-        text_builder << ' ' << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
+        text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
     }
 }
