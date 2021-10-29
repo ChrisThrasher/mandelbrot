@@ -3,7 +3,6 @@
 #include <array>
 #include <complex>
 #include <iomanip>
-#include <iostream>
 #include <thread>
 
 using Complex = std::complex<double>;
@@ -50,7 +49,7 @@ static auto Color(const int iterations)
 }
 
 int main()
-try {
+{
     constexpr auto length = 800u;
     constexpr auto initial_origin = Complex(-0.5, 0.0);
     constexpr auto initial_extent = 2.5;
@@ -64,8 +63,7 @@ try {
     auto clock = sf::Clock();
     auto recalculate = true;
     auto font = sf::Font();
-    if (!font.loadFromFile(std::string(FONT_PATH) + "/font.ttf"))
-        throw std::runtime_error("Failed to load font");
+    font.loadFromFile(std::string(FONT_PATH) + "/font.ttf");
 
     auto text = sf::Text("", font, 24);
     text.setFillColor(sf::Color::White);
@@ -169,7 +167,4 @@ try {
         text_builder << std::setw(4) << g_max_iterations << " iters\n";
         text.setString(text_builder.str());
     }
-} catch (const std::exception& ex) {
-    std::cerr << ex.what() << '\n';
-    return -1;
 }
