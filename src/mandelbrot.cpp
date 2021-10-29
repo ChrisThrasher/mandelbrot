@@ -45,7 +45,6 @@ static auto Color(const int iterations)
     case 5:
         return sf::Color(val * 255, p * 255, q * 255);
     }
-    throw std::runtime_error("Unreachable");
 }
 
 int main()
