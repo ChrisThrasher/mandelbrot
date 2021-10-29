@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 project(mandelbrot CXX)
 
-set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,6 +16,7 @@ endif()
 add_executable(mandelbrot src/mandelbrot.cpp)
 target_link_libraries(mandelbrot PRIVATE sfml-graphics sfml-window Threads::Threads)
 target_compile_definitions(mandelbrot PRIVATE FONT_PATH="${CMAKE_SOURCE_DIR}/data")
+target_compile_features(mandelbrot PRIVATE cxx_std_17)
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.cpp *.h`
