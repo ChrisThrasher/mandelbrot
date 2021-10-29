@@ -164,6 +164,7 @@ int main()
         auto text_builder = std::ostringstream();
         text_builder << std::setw(4) << framerate << " fps\n";
         text_builder << std::setw(4) << g_max_iterations << " iters\n";
+        text_builder << ' ' << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
     }
 }
