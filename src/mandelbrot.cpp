@@ -9,7 +9,7 @@ using Complex = std::complex<double>;
 
 static int g_max_iterations { 250 };
 
-static auto Calculate(const Complex& c)
+static auto Calculate(const Complex& c) noexcept
 {
     auto iterations = 0;
     for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < g_max_iterations; ++iterations)
@@ -17,7 +17,7 @@ static auto Calculate(const Complex& c)
     return iterations;
 }
 
-static auto Color(const int iterations)
+static auto Color(const int iterations) noexcept
 {
     const auto hue = iterations % 360;
     const auto sat = 1.0f;
@@ -71,7 +71,7 @@ int main()
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color::Black);
 
-    const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
+    const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
                 (*pixels)[i][j]
