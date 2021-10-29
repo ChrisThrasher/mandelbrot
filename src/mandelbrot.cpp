@@ -61,6 +61,8 @@ int main()
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
+    auto image = sf::Image();
+    auto texture = sf::Texture();
     auto font = sf::Font();
     font.loadFromFile(std::string(FONT_PATH) + "/font.ttf");
 
@@ -147,12 +149,10 @@ int main()
                 threads[i] = std::thread(render_rows, i * length / threads.size(), (i + 1) * length / threads.size());
             for (auto& thread : threads)
                 thread.join();
-        }
 
-        auto image = sf::Image();
-        image.create(length, length, (sf::Uint8*)pixels->data());
-        auto texture = sf::Texture();
-        texture.loadFromImage(image);
+            image.create(length, length, (sf::Uint8*)pixels->data());
+            texture.loadFromImage(image);
+        }
 
         window.draw(sf::Sprite(texture));
         window.draw(text);
