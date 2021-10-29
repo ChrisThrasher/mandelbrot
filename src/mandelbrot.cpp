@@ -7,7 +7,8 @@
 
 using Complex = std::complex<double>;
 
-static int g_max_iterations { 250 };
+static constexpr int g_initial_max_iterations { 250 };
+static int g_max_iterations { g_initial_max_iterations };
 
 static auto Calculate(const Complex& c) noexcept
 {
@@ -110,6 +111,7 @@ int main()
                 case sf::Keyboard::R:
                     origin = initial_origin;
                     extent = initial_extent;
+                    g_max_iterations = g_initial_max_iterations;
                     break;
                 case sf::Keyboard::RBracket:
                     g_max_iterations += 25;
