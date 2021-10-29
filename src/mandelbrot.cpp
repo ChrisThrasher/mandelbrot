@@ -63,8 +63,15 @@ try {
     auto extent = initial_extent;
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto then = std::chrono::steady_clock::now();
+    auto recalculate = true;
+    auto font = sf::Font();
+    if (!font.loadFromFile(std::string(FONT_PATH) + "/font.ttf"))
+        throw std::runtime_error("Failed to load font");
 
-    bool recalculate = true;
+    auto text = sf::Text("", font, 24);
+    text.setFillColor(sf::Color::White);
+    text.setOutlineThickness(2);
+    text.setOutlineColor(sf::Color::Black);
 
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) {
         for (unsigned i = start; i < end; ++i)
@@ -152,13 +159,18 @@ try {
         texture.loadFromImage(image);
 
         window.draw(sf::Sprite(texture));
+        window.draw(text);
         window.display();
 
         const auto now = std::chrono::steady_clock::now();
         const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - then);
         const auto framerate = 1'000'000 / elapsed.count();
-        std::cout << '\r' << std::setw(4) << framerate << " fps" << std::flush;
         then = now;
+
+        auto text_builder = std::ostringstream();
+        text_builder << std::setw(4) << framerate << " fps\n";
+        text_builder << std::setw(4) << g_max_iterations << " iters\n";
+        text.setString(text_builder.str());
     }
 } catch (const std::exception& ex) {
     std::cerr << ex.what() << '\n';
