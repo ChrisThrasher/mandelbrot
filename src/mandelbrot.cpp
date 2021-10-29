@@ -113,7 +113,7 @@ int main()
                     g_max_iterations += 25;
                     break;
                 case sf::Keyboard::LBracket:
-                    g_max_iterations -= 25;
+                    g_max_iterations = std::max(g_max_iterations - 25, 25);
                     break;
                 default:
                     break;
