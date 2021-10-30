@@ -16,7 +16,7 @@ endif()
 add_executable(mandelbrot src/mandelbrot.cpp)
 target_link_libraries(mandelbrot PRIVATE sfml-graphics sfml-window Threads::Threads)
 target_compile_definitions(mandelbrot PRIVATE FONT_PATH="${CMAKE_SOURCE_DIR}/data")
-target_compile_features(mandelbrot PRIVATE cxx_std_17)
+target_compile_features(mandelbrot PRIVATE cxx_std_20)
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.cpp *.h`

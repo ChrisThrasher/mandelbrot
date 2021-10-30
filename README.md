@@ -7,9 +7,9 @@ SFML-based Mandelbrot viewer program.
     <img src="docs/zoomed.png"     width="300"/>
 </p>
 
-# Dependencies
+# Requirements
+ * C++20
  * CMake 3.16
- * C++17
  * SFML 2.5
 
 # Building

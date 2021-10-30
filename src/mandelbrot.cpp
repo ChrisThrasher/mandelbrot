@@ -126,9 +126,8 @@ int main()
                 recalculate = true;
                 break;
             case sf::Event::MouseButtonPressed:
-                origin = origin
-                    + extent / length
-                        * Complex(event.mouseButton.x - length / 2.0, -event.mouseButton.y + length / 2.0);
+                origin += extent / length
+                    * Complex(event.mouseButton.x - length / 2.0, -event.mouseButton.y + length / 2.0);
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
