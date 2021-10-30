@@ -9,7 +9,7 @@ find_package(Threads REQUIRED)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
-    add_compile_options(-ffast-math -Werror -Wall -Wextra -Wpedantic -Wshadow -Wsign-conversion)
+    add_compile_options(-ffast-math -Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion)
 endif()
 
 add_executable(mandelbrot src/mandelbrot.cpp)

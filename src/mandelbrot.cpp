@@ -18,7 +18,7 @@ static auto Calculate(const Complex& c) noexcept
     return iterations;
 }
 
-static auto Color(const int iterations) noexcept
+static auto Color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 1.0f;
@@ -34,17 +34,17 @@ static auto Color(const int iterations) noexcept
     default:
     case 0:
     case 6:
-        return sf::Color(val * 255, t * 255, p * 255);
+        return { sf::Uint8(val * 255), sf::Uint8(t * 255), sf::Uint8(p * 255) };
     case 1:
-        return sf::Color(q * 255, val * 255, p * 255);
+        return { sf::Uint8(q * 255), sf::Uint8(val * 255), sf::Uint8(p * 255) };
     case 2:
-        return sf::Color(p * 255, val * 255, t * 255);
+        return { sf::Uint8(p * 255), sf::Uint8(val * 255), sf::Uint8(t * 255) };
     case 3:
-        return sf::Color(p * 255, q * 255, val * 255);
+        return { sf::Uint8(p * 255), sf::Uint8(q * 255), sf::Uint8(val * 255) };
     case 4:
-        return sf::Color(t * 255, p * 255, val * 255);
+        return { sf::Uint8(t * 255), sf::Uint8(p * 255), sf::Uint8(val * 255) };
     case 5:
-        return sf::Color(val * 255, p * 255, q * 255);
+        return { sf::Uint8(val * 255), sf::Uint8(p * 255), sf::Uint8(0 * 255) };
     }
 }
 
