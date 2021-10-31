@@ -7,13 +7,13 @@
 
 using Complex = std::complex<double>;
 
-static constexpr int g_initial_max_iterations { 250 };
-static int g_max_iterations { g_initial_max_iterations };
+static constexpr int initial_max_iterations { 250 };
+static int max_iterations { initial_max_iterations };
 
 static auto Calculate(const Complex& c) noexcept
 {
     auto iterations = 0;
-    for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < g_max_iterations; ++iterations)
+    for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < max_iterations; ++iterations)
         z = z * z + c;
     return iterations;
 }
@@ -22,7 +22,7 @@ static auto Color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 1.0f;
-    const auto val = (g_max_iterations == iterations) ? 0.0f : 1.0f;
+    const auto val = (max_iterations == iterations) ? 0.0f : 1.0f;
 
     const auto h = hue / 60;
     const auto f = hue / 60.0f - h;
@@ -112,13 +112,13 @@ int main()
                 case sf::Keyboard::R:
                     origin = initial_origin;
                     extent = initial_extent;
-                    g_max_iterations = g_initial_max_iterations;
+                    max_iterations = initial_max_iterations;
                     break;
                 case sf::Keyboard::RBracket:
-                    g_max_iterations += 25;
+                    max_iterations += 25;
                     break;
                 case sf::Keyboard::LBracket:
-                    g_max_iterations = std::max(g_max_iterations - 25, 25);
+                    max_iterations = std::max(max_iterations - 25, 25);
                     break;
                 default:
                     break;
@@ -165,7 +165,7 @@ int main()
 
         auto text_builder = std::ostringstream();
         text_builder << std::setw(4) << framerate << " fps\n";
-        text_builder << std::setw(4) << g_max_iterations << " iters\n";
+        text_builder << std::setw(4) << max_iterations << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
     }
