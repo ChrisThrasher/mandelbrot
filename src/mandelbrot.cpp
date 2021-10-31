@@ -71,7 +71,7 @@ int main()
     text.setFillColor(sf::Color::White);
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color::Black);
-    text.setPosition(sf::Vector2f(10.0f, 5.0f));
+    text.setPosition({ 10.0f, 5.0f });
 
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
