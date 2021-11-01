@@ -25,7 +25,7 @@ static auto Color(const int iterations) noexcept -> sf::Color
     const auto val = (max_iterations == iterations) ? 0.0f : 1.0f;
 
     const auto h = hue / 60;
-    const auto f = hue / 60.0f - h;
+    const auto f = (float)hue / 60.0f - (float)h;
     const auto p = val * (1.0f - sat);
     const auto q = val * (1.0f - sat * f);
     const auto t = val * (1.0f - sat * (1.0f - f));
