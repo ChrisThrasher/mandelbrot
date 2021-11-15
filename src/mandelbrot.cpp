@@ -160,11 +160,8 @@ int main()
         window.draw(text);
         window.display();
 
-        const auto framerate = 1'000'000 / clock.getElapsedTime().asMicroseconds();
-        clock.restart();
-
         auto text_builder = std::ostringstream();
-        text_builder << std::setw(4) << framerate << " fps\n";
+        text_builder << std::setw(4) << 1'000'000 / clock.restart().asMicroseconds() << " fps\n";
         text_builder << std::setw(4) << max_iterations << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
