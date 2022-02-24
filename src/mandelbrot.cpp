@@ -50,7 +50,7 @@ static auto color(const int iterations) noexcept -> sf::Color
 
 int main()
 {
-    constexpr auto length = 800u;
+    constexpr auto length = 600u;
     constexpr auto initial_origin = Complex(-0.5, 0.0);
     constexpr auto initial_extent = Complex::value_type(2.5);
 
@@ -65,7 +65,8 @@ int main()
     auto image = sf::Image();
     auto texture = sf::Texture();
     auto font = sf::Font();
-    font.loadFromFile(std::string(FONT_PATH) + "/font.ttf");
+    if (!font.loadFromFile(FONT_PATH / std::filesystem::path("font.ttf")))
+        throw std::runtime_error("Failed to load font");
 
     auto text = sf::Text("", font, 24);
     text.setFillColor(sf::Color::White);
@@ -80,7 +81,7 @@ int main()
                     = color(calculate(extent * Complex((double)j / length - 0.5, -(double)i / length + 0.5) + origin));
     };
 
-    auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
+    auto window = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot");
     window.setFramerateLimit(60);
     while (window.isOpen()) {
         for (auto event = sf::Event(); window.pollEvent(event);) {
@@ -152,8 +153,9 @@ int main()
             for (auto& thread : threads)
                 thread.join();
 
-            image.create(length, length, (sf::Uint8*)pixels->data());
-            texture.loadFromImage(image);
+            image.create({ length, length }, (sf::Uint8*)pixels->data());
+            if (!texture.loadFromImage(image))
+                throw std::runtime_error("Failed to load texture");
         }
 
         window.draw(sf::Sprite(texture));
