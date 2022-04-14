@@ -55,7 +55,7 @@ int main()
     constexpr auto initial_extent = Complex::value_type(2.5);
 
     // Heap allocate to accomodate systems with small (<1MB) stack sizes
-    auto pixels = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
+    const auto pixels = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
 
     auto origin = initial_origin;
     auto extent = initial_extent;
