@@ -10,7 +10,7 @@ using Complex = std::complex<double>;
 static constexpr int initial_max_iterations { 250 };
 static int max_iterations { initial_max_iterations };
 
-static auto Calculate(const Complex& c) noexcept
+static auto calculate(const Complex& c) noexcept
 {
     auto iterations = 0;
     for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < max_iterations; ++iterations)
@@ -18,7 +18,7 @@ static auto Calculate(const Complex& c) noexcept
     return iterations;
 }
 
-static auto Color(const int iterations) noexcept -> sf::Color
+static auto color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 1.0f;
@@ -77,7 +77,7 @@ int main()
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
                 (*pixels)[i][j]
-                    = Color(Calculate(extent * Complex((double)j / length - 0.5, -(double)i / length + 0.5) + origin));
+                    = color(calculate(extent * Complex((double)j / length - 0.5, -(double)i / length + 0.5) + origin));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
