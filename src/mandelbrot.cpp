@@ -83,8 +83,7 @@ int main()
     auto window = sf::RenderWindow(sf::VideoMode(length, length), "Mandelbrot");
     window.setFramerateLimit(60);
     while (window.isOpen()) {
-        auto event = sf::Event();
-        while (window.pollEvent(event)) {
+        for (auto event = sf::Event(); window.pollEvent(event);) {
             switch (event.type) {
             case sf::Event::Closed:
                 window.close();
