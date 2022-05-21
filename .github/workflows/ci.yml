@@ -1,0 +1,41 @@
+name: CI
+
+on: [push]
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Debug
+        cmake --build build
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+
+  ubuntu:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y xorg-dev libudev-dev libopenal-dev libvorbis-dev libflac-dev
+    - name: Build
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Debug
+        cmake --build build
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+
+  windows:
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: |
+        cmake -B build
+        cmake --build build --config Debug
+    - name: Test
+      run: ctest --test-dir build --output-on-failure -C Debug
