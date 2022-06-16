@@ -21,14 +21,14 @@ static auto calculate(const Complex& c) noexcept
 static auto color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
-    const auto sat = 1.0f;
-    const auto val = (max_iterations == iterations) ? 0.0f : 1.0f;
+    const auto sat = 1.f;
+    const auto val = (max_iterations == iterations) ? 0.f : 1.f;
 
     const auto h = hue / 60;
-    const auto f = (float)hue / 60.0f - (float)h;
-    const auto p = val * (1.0f - sat);
-    const auto q = val * (1.0f - sat * f);
-    const auto t = val * (1.0f - sat * (1.0f - f));
+    const auto f = (float)hue / 60.f - (float)h;
+    const auto p = val * (1.f - sat);
+    const auto q = val * (1.f - sat * f);
+    const auto t = val * (1.f - sat * (1.f - f));
 
     switch (h) {
     default:
@@ -72,7 +72,7 @@ int main()
     text.setFillColor(sf::Color::White);
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color::Black);
-    text.setPosition({ 10.0f, 5.0f });
+    text.setPosition({ 10, 5 });
 
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
@@ -132,9 +132,9 @@ int main()
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
-                if (event.mouseWheelScroll.delta > 0.0f)
+                if (event.mouseWheelScroll.delta > 0.f)
                     extent /= 1.2;
-                else if (event.mouseWheelScroll.delta < 0.0f)
+                else if (event.mouseWheelScroll.delta < 0.f)
                     extent *= 1.2;
                 recalculate = true;
                 break;
