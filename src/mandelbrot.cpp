@@ -62,7 +62,6 @@ int main()
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
-    auto image = sf::Image();
     auto texture = sf::Texture();
     auto font = sf::Font();
     if (!font.loadFromFile(FONT_PATH / std::filesystem::path("font.ttf")))
@@ -153,6 +152,7 @@ int main()
             for (auto& thread : threads)
                 thread.join();
 
+            auto image = sf::Image();
             image.create({ length, length }, (sf::Uint8*)pixels->data());
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
