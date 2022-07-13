@@ -2,8 +2,8 @@
 
 #include <array>
 #include <complex>
+#include <future>
 #include <iomanip>
-#include <thread>
 
 using Complex = std::complex<double>;
 
@@ -59,7 +59,7 @@ int main()
 
     auto origin = initial_origin;
     auto extent = initial_extent;
-    auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
+    auto futures = std::vector<std::future<void>>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = sf::Texture();
@@ -147,10 +147,12 @@ int main()
         if (recalculate) {
             recalculate = false;
 
-            for (size_t i = 0; i < threads.size(); ++i)
-                threads[i] = std::thread(render_rows, i * length / threads.size(), (i + 1) * length / threads.size());
-            for (auto& thread : threads)
-                thread.join();
+            const auto row_count = futures.size();
+            const auto pixels_per_row = length / row_count;
+            for (size_t i = 0; i < row_count; ++i)
+                futures[i] = std::async(std::launch::async, render_rows, i * pixels_per_row, (i + 1) * pixels_per_row);
+            for (auto& future : futures)
+                future.wait();
 
             auto image = sf::Image();
             image.create({ length, length }, (sf::Uint8*)pixels->data());
