@@ -19,7 +19,7 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/mandelbrot.cpp)
-target_link_libraries(mandelbrot PRIVATE sfml-graphics Threads::Threads)
+target_link_libraries(mandelbrot PRIVATE SFML::Graphics Threads::Threads)
 target_compile_definitions(mandelbrot PRIVATE FONT_PATH="${CMAKE_SOURCE_DIR}/data")
 target_compile_features(mandelbrot PRIVATE cxx_std_20)
 
