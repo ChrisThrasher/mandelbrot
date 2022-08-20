@@ -25,7 +25,7 @@ static auto color(const int iterations) noexcept -> sf::Color
     const auto val = (max_iterations == iterations) ? 0.f : 1.f;
 
     const auto h = hue / 60;
-    const auto f = (float)hue / 60.f - (float)h;
+    const auto f = float(hue) / 60.f - float(h);
     const auto p = val * (1.f - sat);
     const auto q = val * (1.f - sat * f);
     const auto t = val * (1.f - sat * (1.f - f));
@@ -77,7 +77,7 @@ int main()
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
                 (*pixels)[i][j]
-                    = color(calculate(extent * Complex((double)j / length - 0.5, -(double)i / length + 0.5) + origin));
+                    = color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot");
@@ -126,8 +126,8 @@ int main()
                 break;
             case sf::Event::MouseButtonPressed:
                 origin += extent
-                    * Complex((double)event.mouseButton.x / (double)window.getSize().x - 0.5,
-                              -(double)event.mouseButton.y / (double)window.getSize().y + 0.5);
+                    * Complex(double(event.mouseButton.x) / double(window.getSize().x) - 0.5,
+                              -double(event.mouseButton.y) / double(window.getSize().y) + 0.5);
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
@@ -155,7 +155,7 @@ int main()
                 future.wait();
 
             auto image = sf::Image();
-            image.create({ length, length }, (sf::Uint8*)pixels->data());
+            image.create({ length, length }, reinterpret_cast<sf::Uint8*>(pixels->data()));
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
         }
