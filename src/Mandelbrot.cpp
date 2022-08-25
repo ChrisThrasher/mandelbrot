@@ -55,7 +55,8 @@ int main()
     constexpr auto initial_extent = Complex::value_type(2.5);
 
     // Heap allocate to accomodate systems with small (<1MB) stack sizes
-    const auto pixels = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
+    const auto pixels_allocation = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
+    auto& pixels = *pixels_allocation;
 
     auto origin = initial_origin;
     auto extent = initial_extent;
@@ -76,7 +77,7 @@ int main()
     const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
-                (*pixels)[i][j]
+                pixels[i][j]
                     = color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin));
     };
 
@@ -155,7 +156,7 @@ int main()
                 future.wait();
 
             auto image = sf::Image();
-            image.create({ length, length }, reinterpret_cast<sf::Uint8*>(pixels->data()));
+            image.create({ length, length }, reinterpret_cast<sf::Uint8*>(pixels.data()));
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
         }
