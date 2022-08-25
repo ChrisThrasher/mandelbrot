@@ -7,13 +7,13 @@
 
 using Complex = std::complex<double>;
 
-static constexpr int initial_max_iterations { 250 };
-static int max_iterations { initial_max_iterations };
+static constexpr auto initial_max_iterations { 250 };
+static auto max_iterations { initial_max_iterations };
 
 static auto calculate(const Complex& c) noexcept
 {
     auto iterations = 0;
-    for (auto z = Complex(); std::norm(z) <= 4.0 && iterations < max_iterations; ++iterations)
+    for (auto z = Complex(); std::norm(z) <= 4 && iterations < max_iterations; ++iterations)
         z = z * z + c;
     return iterations;
 }
@@ -25,10 +25,10 @@ static auto color(const int iterations) noexcept -> sf::Color
     const auto val = (max_iterations == iterations) ? 0.f : 1.f;
 
     const auto h = hue / 60;
-    const auto f = float(hue) / 60.f - float(h);
-    const auto p = val * (1.f - sat);
-    const auto q = val * (1.f - sat * f);
-    const auto t = val * (1.f - sat * (1.f - f));
+    const auto f = float(hue) / 60 - float(h);
+    const auto p = val * (1 - sat);
+    const auto q = val * (1 - sat * f);
+    const auto t = val * (1 - sat * (1 - f));
 
     switch (h) {
     default:
@@ -50,9 +50,9 @@ static auto color(const int iterations) noexcept -> sf::Color
 
 int main()
 {
-    constexpr auto length = 600u;
-    constexpr auto initial_origin = Complex(-0.5, 0.0);
-    constexpr auto initial_extent = Complex::value_type(2.5);
+    constexpr auto length = size_t(600);
+    constexpr auto initial_origin = Complex(-0.5, 0);
+    constexpr auto initial_extent = 2.5;
 
     // Heap allocate to accomodate systems with small (<1MB) stack sizes
     const auto pixels_allocation = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
@@ -74,9 +74,9 @@ int main()
     text.setOutlineColor(sf::Color::Black);
     text.setPosition({ 10, 5 });
 
-    const auto render_rows = [&pixels, &extent, &origin](const unsigned start, const unsigned end) noexcept {
-        for (unsigned i = start; i < end; ++i)
-            for (unsigned j = 0; j < length; ++j)
+    const auto render_rows = [&pixels, &extent, &origin](const size_t start, const size_t end) noexcept {
+        for (size_t i = start; i < end; ++i)
+            for (size_t j = 0; j < length; ++j)
                 pixels[i][j]
                     = color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin));
     };
@@ -92,16 +92,16 @@ int main()
             case sf::Event::KeyPressed:
                 switch (event.key.code) {
                 case sf::Keyboard::Up:
-                    origin = { origin.real(), origin.imag() + extent / 25.0 };
+                    origin = { origin.real(), origin.imag() + extent / 25. };
                     break;
                 case sf::Keyboard::Down:
-                    origin = { origin.real(), origin.imag() - extent / 25.0 };
+                    origin = { origin.real(), origin.imag() - extent / 25. };
                     break;
                 case sf::Keyboard::Left:
-                    origin = { origin.real() - extent / 25.0, origin.imag() };
+                    origin = { origin.real() - extent / 25., origin.imag() };
                     break;
                 case sf::Keyboard::Right:
-                    origin = { origin.real() + extent / 25.0, origin.imag() };
+                    origin = { origin.real() + extent / 25., origin.imag() };
                     break;
                 case sf::Keyboard::W:
                     extent /= 1.5;
@@ -132,9 +132,9 @@ int main()
                 recalculate = true;
                 break;
             case sf::Event::MouseWheelScrolled:
-                if (event.mouseWheelScroll.delta > 0.f)
+                if (event.mouseWheelScroll.delta > 0)
                     extent /= 1.2;
-                else if (event.mouseWheelScroll.delta < 0.f)
+                else if (event.mouseWheelScroll.delta < 0)
                     extent *= 1.2;
                 recalculate = true;
                 break;
@@ -166,7 +166,7 @@ int main()
         window.display();
 
         auto text_builder = std::ostringstream();
-        text_builder << std::setw(4) << int(1. / clock.restart().asSeconds()) << " fps\n";
+        text_builder << std::setw(4) << int(1 / clock.restart().asSeconds()) << " fps\n";
         text_builder << std::setw(4) << max_iterations << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
