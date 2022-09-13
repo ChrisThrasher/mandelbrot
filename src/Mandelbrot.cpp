@@ -34,17 +34,17 @@ static auto color(const int iterations) noexcept -> sf::Color
     default:
     case 0:
     case 6:
-        return { sf::Uint8(val * 255), sf::Uint8(t * 255), sf::Uint8(p * 255) };
+        return { uint8_t(val * 255), uint8_t(t * 255), uint8_t(p * 255) };
     case 1:
-        return { sf::Uint8(q * 255), sf::Uint8(val * 255), sf::Uint8(p * 255) };
+        return { uint8_t(q * 255), uint8_t(val * 255), uint8_t(p * 255) };
     case 2:
-        return { sf::Uint8(p * 255), sf::Uint8(val * 255), sf::Uint8(t * 255) };
+        return { uint8_t(p * 255), uint8_t(val * 255), uint8_t(t * 255) };
     case 3:
-        return { sf::Uint8(p * 255), sf::Uint8(q * 255), sf::Uint8(val * 255) };
+        return { uint8_t(p * 255), uint8_t(q * 255), uint8_t(val * 255) };
     case 4:
-        return { sf::Uint8(t * 255), sf::Uint8(p * 255), sf::Uint8(val * 255) };
+        return { uint8_t(t * 255), uint8_t(p * 255), uint8_t(val * 255) };
     case 5:
-        return { sf::Uint8(val * 255), sf::Uint8(p * 255), sf::Uint8(0 * 255) };
+        return { uint8_t(val * 255), uint8_t(p * 255), uint8_t(0 * 255) };
     }
 }
 
@@ -156,7 +156,7 @@ int main()
                 future.wait();
 
             auto image = sf::Image();
-            image.create({ length, length }, reinterpret_cast<sf::Uint8*>(pixels.data()));
+            image.create({ length, length }, reinterpret_cast<uint8_t*>(pixels.data()));
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
         }
