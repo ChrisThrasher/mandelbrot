@@ -5,7 +5,7 @@
 #include <future>
 #include <iomanip>
 
-using Complex = std::complex<double>;
+using Complex = std::complex<long double>;
 
 static constexpr auto initial_max_iterations { 250 };
 static auto max_iterations { initial_max_iterations };
@@ -52,7 +52,7 @@ int main()
 {
     constexpr auto length = size_t(600);
     constexpr auto initial_origin = Complex(-0.5, 0);
-    constexpr auto initial_extent = 2.5;
+    constexpr auto initial_extent = Complex::value_type(2.5);
 
     // Heap allocate to accomodate systems with small (<1MB) stack sizes
     const auto pixels_allocation = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
