@@ -8,8 +8,6 @@ find_package(Threads REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-ffast-math -Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
-    add_compile_options($<$<CONFIG:DEBUG>:-fsanitize=address,undefined>)
-    add_link_options($<$<CONFIG:DEBUG>:-fsanitize=address,undefined>)
 endif()
 
 include(FetchContent)

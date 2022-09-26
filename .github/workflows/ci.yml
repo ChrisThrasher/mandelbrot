@@ -4,31 +4,43 @@ on: [push]
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
-    runs-on: ${{ matrix.platform.os }}
+    name: ${{matrix.platform.name}} ${{matrix.config.name}}
+    runs-on: ${{matrix.platform.os}}
 
     strategy:
       fail-fast: false
       matrix:
         platform:
-        - { name: Windows VS2022, os: windows-2022  }
-        - { name: Linux GCC,      os: ubuntu-latest }
-        - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS,          os: macos-latest  }
+        - { name: Windows,     os: windows-2022 }
+        - { name: Linux GCC,   os: ubuntu-latest }
+        - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
+        - { name: macOS,       os: macos-latest }
         config:
-        - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
-        - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
+        - { name: Debug }
+        - { name: Release }
 
     steps:
     - name: Install Linux Dependencies
       if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+      run: |
+        sudo apt update
+        sudo apt install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
     - name: Checkout
       uses: actions/checkout@v3
 
     - name: Configure
-      run: cmake -S . -B build -DCMAKE_INSTALL_PREFIX=install ${{matrix.platform.flags}} ${{matrix.config.flags}}
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{matrix.config.name}} ${{matrix.platform.flags}}
 
     - name: Build
-      run: cmake --build build --config Release
+      run: cmake --build build --config ${{matrix.config.name}}
+
+    - name: Format
+      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Debug'
+      run: |
+        cmake --build build --target format
+        git diff --exit-code
+
+    - name: Analyze
+      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Debug'
+      run: cmake --build build --target tidy
