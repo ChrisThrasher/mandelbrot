@@ -92,16 +92,16 @@ int main()
             case sf::Event::KeyPressed:
                 switch (event.key.code) {
                 case sf::Keyboard::Up:
-                    origin = { origin.real(), origin.imag() + extent / 25. };
+                    origin = { origin.real(), origin.imag() + extent / 25 };
                     break;
                 case sf::Keyboard::Down:
-                    origin = { origin.real(), origin.imag() - extent / 25. };
+                    origin = { origin.real(), origin.imag() - extent / 25 };
                     break;
                 case sf::Keyboard::Left:
-                    origin = { origin.real() - extent / 25., origin.imag() };
+                    origin = { origin.real() - extent / 25, origin.imag() };
                     break;
                 case sf::Keyboard::Right:
-                    origin = { origin.real() + extent / 25., origin.imag() };
+                    origin = { origin.real() + extent / 25, origin.imag() };
                     break;
                 case sf::Keyboard::W:
                     extent /= 1.5;
