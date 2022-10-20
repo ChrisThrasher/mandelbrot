@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         platform:
-        - { name: Windows,     os: windows-2022 }
+        - { name: Windows,     os: windows-latest }
         - { name: Linux GCC,   os: ubuntu-latest }
         - { name: Linux Clang, os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
         - { name: macOS,       os: macos-latest }
