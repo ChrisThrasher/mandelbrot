@@ -8,6 +8,8 @@ find_package(Threads REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
     add_compile_options(-ffast-math -Werror -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast)
+elseif(MSVC)
+    add_compile_options(/WX /W4 /permissive-)
 endif()
 
 include(FetchContent)
