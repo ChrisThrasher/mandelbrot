@@ -21,7 +21,7 @@ static auto calculate(const Complex& c) noexcept
 static auto color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
-    const auto sat = 1.f;
+    const auto sat = 0.8f;
     const auto val = (max_iterations == iterations) ? 0.f : 1.f;
 
     const auto h = hue / 60;
