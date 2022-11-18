@@ -3,6 +3,7 @@ Checks: >
   bugprone-*,
   clang-analyzer-*,
   concurrency-*,
+  cppcoreguidelines-*
   misc-*,
   modernize-*,
   performance-*,
