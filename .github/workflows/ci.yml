@@ -36,11 +36,11 @@ jobs:
       run: cmake --build build --config ${{matrix.config.name}}
 
     - name: Format
-      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Debug'
+      if: matrix.platform.name == 'Linux Clang' && matrix.config.name == 'Debug'
       run: |
         cmake --build build --target format
         git diff --exit-code
 
     - name: Analyze
-      if: matrix.platform.name == 'Linux GCC' && matrix.config.name == 'Debug'
+      if: matrix.platform.name == 'Linux Clang' && matrix.config.name == 'Debug'
       run: cmake --build build --target tidy
