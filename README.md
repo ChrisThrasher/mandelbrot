@@ -9,7 +9,7 @@ SFML-based Mandelbrot viewer program.
 
 # Requirements
  * C++17
- * CMake 3.16
+ * CMake 3.22
 
 # Building & Running
 
