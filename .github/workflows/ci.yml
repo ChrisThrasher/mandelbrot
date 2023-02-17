@@ -41,6 +41,6 @@ jobs:
         cmake --build build --target format
         git diff --exit-code
 
-    - name: Analyze
+    - name: Tidy
       if: matrix.platform.name == 'Linux Clang' && matrix.config.name == 'Debug'
       run: cmake --build build --target tidy
