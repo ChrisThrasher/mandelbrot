@@ -148,10 +148,10 @@ int main()
         if (recalculate) {
             recalculate = false;
 
-            const auto row_count = futures.size();
-            const auto pixels_per_row = length / row_count;
-            for (size_t i = 0; i < row_count; ++i)
-                futures[i] = std::async(std::launch::async, render_rows, i * pixels_per_row, (i + 1) * pixels_per_row);
+            const auto rows_per_thread = length / futures.size();
+            for (size_t i = 0; i < futures.size(); ++i)
+                futures[i]
+                    = std::async(std::launch::async, render_rows, i * rows_per_thread, (i + 1) * rows_per_thread);
             for (auto& future : futures)
                 future.wait();
 
