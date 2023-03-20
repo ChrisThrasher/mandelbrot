@@ -91,6 +91,9 @@ int main()
                 break;
             case sf::Event::KeyPressed:
                 switch (event.key.scancode) {
+                case sf::Keyboard::Scan::Escape:
+                    window.close();
+                    break;
                 case sf::Keyboard::Scan::Up:
                     origin = { origin.real(), origin.imag() + extent / 25 };
                     break;
