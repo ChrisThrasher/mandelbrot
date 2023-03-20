@@ -90,34 +90,34 @@ int main()
                 window.close();
                 break;
             case sf::Event::KeyPressed:
-                switch (event.key.code) {
-                case sf::Keyboard::Up:
+                switch (event.key.scancode) {
+                case sf::Keyboard::Scan::Up:
                     origin = { origin.real(), origin.imag() + extent / 25 };
                     break;
-                case sf::Keyboard::Down:
+                case sf::Keyboard::Scan::Down:
                     origin = { origin.real(), origin.imag() - extent / 25 };
                     break;
-                case sf::Keyboard::Left:
+                case sf::Keyboard::Scan::Left:
                     origin = { origin.real() - extent / 25, origin.imag() };
                     break;
-                case sf::Keyboard::Right:
+                case sf::Keyboard::Scan::Right:
                     origin = { origin.real() + extent / 25, origin.imag() };
                     break;
-                case sf::Keyboard::W:
+                case sf::Keyboard::Scan::W:
                     extent /= 1.5;
                     break;
-                case sf::Keyboard::S:
+                case sf::Keyboard::Scan::S:
                     extent *= 1.5;
                     break;
-                case sf::Keyboard::R:
+                case sf::Keyboard::Scan::R:
                     origin = initial_origin;
                     extent = initial_extent;
                     max_iterations = initial_max_iterations;
                     break;
-                case sf::Keyboard::RBracket:
+                case sf::Keyboard::Scan::RBracket:
                     max_iterations += 25;
                     break;
-                case sf::Keyboard::LBracket:
+                case sf::Keyboard::Scan::LBracket:
                     max_iterations = std::max(max_iterations - 25, 25);
                     break;
                 default:
