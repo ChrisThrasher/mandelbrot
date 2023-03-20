@@ -7,10 +7,11 @@
 
 using Complex = std::complex<long double>;
 
-static constexpr auto initial_max_iterations { 250 };
-static auto max_iterations { initial_max_iterations };
+namespace {
+constexpr auto initial_max_iterations = 250;
+auto max_iterations = initial_max_iterations;
 
-static auto calculate(const Complex& c) noexcept
+auto calculate(const Complex& c) noexcept
 {
     auto iterations = 0;
     for (auto z = Complex(); std::norm(z) <= 4 && iterations < max_iterations; ++iterations)
@@ -18,7 +19,7 @@ static auto calculate(const Complex& c) noexcept
     return iterations;
 }
 
-static auto color(const int iterations) noexcept -> sf::Color
+auto color(const int iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 0.8f;
@@ -46,6 +47,7 @@ static auto color(const int iterations) noexcept -> sf::Color
     case 5:
         return { uint8_t(val * 255), uint8_t(p * 255), uint8_t(0 * 255) };
     }
+}
 }
 
 int main()
