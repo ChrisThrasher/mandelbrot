@@ -54,9 +54,8 @@ int main()
     constexpr auto initial_origin = Complex(-0.5, 0);
     constexpr auto initial_extent = Complex::value_type(2.5);
 
-    // Heap allocate to accomodate systems with small (<1MB) stack sizes
-    const auto pixels_allocation = std::make_unique<std::array<std::array<sf::Color, length>, length>>();
-    auto& pixels = *pixels_allocation;
+    auto image = sf::Image();
+    image.create({ length, length });
 
     auto origin = initial_origin;
     auto extent = initial_extent;
@@ -74,11 +73,12 @@ int main()
     text.setOutlineColor(sf::Color::Black);
     text.setPosition({ 10, 5 });
 
-    const auto render_rows = [&pixels, &extent, &origin](const size_t start, const size_t end) noexcept {
-        for (size_t i = start; i < end; ++i)
-            for (size_t j = 0; j < length; ++j)
-                pixels[i][j]
-                    = color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin));
+    const auto render_rows = [&image, &extent, &origin](const unsigned start, const unsigned end) noexcept {
+        for (unsigned i = start; i < end; ++i)
+            for (unsigned j = 0; j < length; ++j)
+                image.setPixel(
+                    { j, i },
+                    color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin)));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot");
@@ -148,15 +148,13 @@ int main()
         if (recalculate) {
             recalculate = false;
 
-            const auto rows_per_thread = length / futures.size();
-            for (size_t i = 0; i < futures.size(); ++i)
+            const auto rows_per_thread = unsigned(length / futures.size());
+            for (unsigned i = 0; i < futures.size(); ++i)
                 futures[i]
                     = std::async(std::launch::async, render_rows, i * rows_per_thread, (i + 1) * rows_per_thread);
             for (auto& future : futures)
                 future.wait();
 
-            auto image = sf::Image();
-            image.create({ length, length }, reinterpret_cast<uint8_t*>(pixels.data()));
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
         }
