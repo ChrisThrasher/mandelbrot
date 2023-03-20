@@ -8,10 +8,7 @@
 using Complex = std::complex<long double>;
 
 namespace {
-constexpr auto initial_max_iterations = 250;
-auto max_iterations = initial_max_iterations;
-
-auto calculate(const Complex& c) noexcept
+auto calculate(const Complex& c, const int max_iterations) noexcept
 {
     auto iterations = 0;
     for (auto z = Complex(); std::norm(z) <= 4 && iterations < max_iterations; ++iterations)
@@ -19,7 +16,7 @@ auto calculate(const Complex& c) noexcept
     return iterations;
 }
 
-auto color(const int iterations) noexcept -> sf::Color
+auto color(const int iterations, const int max_iterations) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 0.8f;
@@ -55,12 +52,14 @@ int main()
     constexpr auto length = size_t(600);
     constexpr auto initial_origin = Complex(-0.5, 0);
     constexpr auto initial_extent = Complex::value_type(2.5);
+    constexpr auto initial_max_iterations = 250;
 
     auto image = sf::Image();
     image.create({ length, length });
 
     auto origin = initial_origin;
     auto extent = initial_extent;
+    auto max_iterations = initial_max_iterations;
     auto futures = std::vector<std::future<void>>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
@@ -75,12 +74,15 @@ int main()
     text.setOutlineColor(sf::Color::Black);
     text.setPosition({ 10, 5 });
 
-    const auto render_rows = [&image, &extent, &origin](const unsigned start, const unsigned end) noexcept {
+    const auto render_rows = [&image, &extent, &origin, &max_iterations](const unsigned start,
+                                                                         const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
                 image.setPixel(
                     { j, i },
-                    color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin)));
+                    color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin,
+                                    max_iterations),
+                          max_iterations));
     };
 
     auto window = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot");
