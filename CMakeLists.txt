@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(mandelbrot CXX)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
-
 find_package(Threads REQUIRED)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "(GNU|Clang)")
