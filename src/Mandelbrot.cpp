@@ -53,6 +53,7 @@ int main()
     constexpr auto initial_origin = Complex(-0.5, 0);
     constexpr auto initial_extent = Complex::value_type(2.5);
     constexpr auto initial_max_iterations = 250;
+    constexpr auto max_extent = 4 * initial_extent;
 
     auto image = sf::Image();
     image.create({ length, length });
@@ -114,7 +115,7 @@ int main()
                     extent /= 1.5;
                     break;
                 case sf::Keyboard::Scan::S:
-                    extent *= 1.5;
+                    extent = std::min(extent * 1.2, max_extent);
                     break;
                 case sf::Keyboard::Scan::R:
                     origin = initial_origin;
@@ -142,7 +143,7 @@ int main()
                 if (event.mouseWheelScroll.delta > 0)
                     extent /= 1.2;
                 else if (event.mouseWheelScroll.delta < 0)
-                    extent *= 1.2;
+                    extent = std::min(extent * 1.2, max_extent);
                 recalculate = true;
                 break;
             default:
