@@ -2,8 +2,8 @@
 
 #include <array>
 #include <complex>
-#include <future>
 #include <iomanip>
+#include <thread>
 
 using Complex = std::complex<long double>;
 
@@ -59,7 +59,7 @@ int main()
     auto origin = initial_origin;
     auto extent = initial_extent;
     auto max_iterations = initial_max_iterations;
-    auto futures = std::vector<std::future<void>>(std::thread::hardware_concurrency());
+    auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = sf::Texture();
@@ -154,12 +154,11 @@ int main()
         if (recalculate) {
             recalculate = false;
 
-            const auto rows_per_thread = unsigned(length / futures.size());
-            for (unsigned i = 0; i < futures.size(); ++i)
-                futures[i]
-                    = std::async(std::launch::async, render_rows, i * rows_per_thread, (i + 1) * rows_per_thread);
-            for (auto& future : futures)
-                future.wait();
+            const auto rows_per_thread = unsigned(length / threads.size());
+            for (unsigned i = 0; i < threads.size(); ++i)
+                threads[i] = std::thread(render_rows, i * rows_per_thread, (i + 1) * rows_per_thread);
+            for (auto& thread : threads)
+                thread.join();
 
             if (!texture.loadFromImage(image))
                 throw std::runtime_error("Failed to load texture");
