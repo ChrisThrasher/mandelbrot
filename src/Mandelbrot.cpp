@@ -29,10 +29,6 @@ auto color(const int iterations, const int max_iterations) noexcept -> sf::Color
     const auto t = val * (1 - sat * (1 - f));
 
     switch (h) {
-    default:
-    case 0:
-    case 6:
-        return { uint8_t(val * 255), uint8_t(t * 255), uint8_t(p * 255) };
     case 1:
         return { uint8_t(q * 255), uint8_t(val * 255), uint8_t(p * 255) };
     case 2:
@@ -43,6 +39,8 @@ auto color(const int iterations, const int max_iterations) noexcept -> sf::Color
         return { uint8_t(t * 255), uint8_t(p * 255), uint8_t(val * 255) };
     case 5:
         return { uint8_t(val * 255), uint8_t(p * 255), uint8_t(0 * 255) };
+    default:
+        return { uint8_t(val * 255), uint8_t(t * 255), uint8_t(p * 255) };
     }
 }
 }
