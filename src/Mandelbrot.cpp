@@ -170,8 +170,8 @@ int main()
         window.display();
 
         auto text_builder = std::ostringstream();
-        text_builder << std::setw(4) << int(1 / clock.restart().asSeconds()) << " fps\n";
-        text_builder << std::setw(4) << max_iterations << " iters\n";
+        text_builder << std::setw(2) << int(1 / clock.restart().asSeconds()) << " fps\n";
+        text_builder << max_iterations << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
     }
