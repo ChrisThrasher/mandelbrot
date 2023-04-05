@@ -67,7 +67,7 @@ int main()
     if (!font.loadFromFile(FONT_PATH / std::filesystem::path("font.ttf")))
         throw std::runtime_error("Failed to load font");
 
-    auto text = sf::Text("", font, 24);
+    auto text = sf::Text(font, "", 24);
     text.setFillColor(sf::Color::White);
     text.setOutlineThickness(2);
     text.setOutlineColor(sf::Color::Black);
