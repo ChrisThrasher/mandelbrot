@@ -60,7 +60,6 @@ int main()
     auto extent = initial_extent;
     auto max_iterations = initial_max_iterations;
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
-    auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = sf::Texture();
     auto font = sf::Font();
@@ -166,10 +165,10 @@ int main()
 
         window.draw(sf::Sprite(texture));
         window.draw(text);
-        window.display();
+        const auto frame_time = window.display();
 
         auto text_builder = std::ostringstream();
-        text_builder << std::setw(2) << int(1 / clock.restart().asSeconds()) << " fps\n";
+        text_builder << std::setw(2) << int(1 / frame_time.asSeconds()) << " fps\n";
         text_builder << max_iterations << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());

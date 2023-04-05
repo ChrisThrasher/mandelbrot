@@ -11,7 +11,7 @@ elseif(MSVC)
 endif()
 
 include(FetchContent)
-FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git)
+FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/ChrisThrasher/SFML.git GIT_TAG frame_time)
 FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/Mandelbrot.cpp)
