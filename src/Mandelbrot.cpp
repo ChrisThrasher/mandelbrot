@@ -84,7 +84,8 @@ int main()
                           max_iterations));
     };
 
-    auto window = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot");
+    auto window
+        = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot", sf::Style::Default ^ sf::Style::Resize);
     window.setFramerateLimit(60);
     while (window.isOpen()) {
         for (auto event = sf::Event(); window.pollEvent(event);) {
