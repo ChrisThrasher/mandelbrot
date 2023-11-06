@@ -89,12 +89,12 @@ int main()
     window.setFramerateLimit(60);
     while (window.isOpen()) {
         for (auto event = sf::Event(); window.pollEvent(event);) {
-            switch (event.type) {
-            case sf::Event::Closed:
+            switch (event.getType()) {
+            case sf::Event::Type::Closed:
                 window.close();
                 break;
-            case sf::Event::KeyPressed:
-                switch (event.key.scancode) {
+            case sf::Event::Type::KeyPressed:
+                switch (event.get<sf::Event::KeyPressed>().scancode) {
                 case sf::Keyboard::Scan::Escape:
                     window.close();
                     break;
@@ -132,19 +132,23 @@ int main()
                 }
                 recalculate = true;
                 break;
-            case sf::Event::MouseButtonPressed:
+            case sf::Event::Type::MouseButtonPressed: {
+                const auto& mouseButtonPressed = event.get<sf::Event::MouseButtonPressed>();
                 origin += extent
-                    * Complex(double(event.mouseButton.x) / double(window.getSize().x) - 0.5,
-                              -double(event.mouseButton.y) / double(window.getSize().y) + 0.5);
+                    * Complex(double(mouseButtonPressed.x) / double(window.getSize().x) - 0.5,
+                              -double(mouseButtonPressed.y) / double(window.getSize().y) + 0.5);
                 recalculate = true;
                 break;
-            case sf::Event::MouseWheelScrolled:
-                if (event.mouseWheelScroll.delta > 0)
+            }
+            case sf::Event::Type::MouseWheelScrolled: {
+                const auto& mouseWheelScrolled = event.get<sf::Event::MouseWheelScrolled>();
+                if (mouseWheelScrolled.delta > 0)
                     extent /= 1.2;
-                else if (event.mouseWheelScroll.delta < 0)
+                else if (mouseWheelScrolled.delta < 0)
                     extent = std::min(extent * 1.2, max_extent);
                 recalculate = true;
                 break;
+            }
             default:
                 break;
             }

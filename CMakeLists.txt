@@ -13,7 +13,7 @@ endif()
 include(FetchContent)
 set(SFML_BUILD_AUDIO OFF)
 set(SFML_BUILD_NETWORK OFF)
-FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git)
+FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git GIT_TAG event_api)
 FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/Mandelbrot.cpp)
