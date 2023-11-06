@@ -11,6 +11,8 @@ elseif(MSVC)
 endif()
 
 include(FetchContent)
+set(SFML_BUILD_AUDIO OFF)
+set(SFML_BUILD_NETWORK OFF)
 FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git)
 FetchContent_MakeAvailable(SFML)
 
