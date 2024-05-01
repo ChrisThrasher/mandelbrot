@@ -89,12 +89,10 @@ int main()
     window.setFramerateLimit(60);
     while (window.isOpen()) {
         for (auto event = sf::Event(); window.pollEvent(event);) {
-            switch (event.type) {
-            case sf::Event::Closed:
+            if (event.is<sf::Event::Closed>()) {
                 window.close();
-                break;
-            case sf::Event::KeyPressed:
-                switch (event.key.scancode) {
+            } else if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
+                switch (key_pressed->scancode) {
                 case sf::Keyboard::Scan::Escape:
                     window.close();
                     break;
@@ -131,22 +129,17 @@ int main()
                     break;
                 }
                 recalculate = true;
-                break;
-            case sf::Event::MouseButtonPressed:
+            } else if (const auto* mouse_button_pressed = event.getIf<sf::Event::MouseButtonPressed>()) {
                 origin += extent
-                    * Complex(double(event.mouseButton.x) / double(window.getSize().x) - 0.5,
-                              -double(event.mouseButton.y) / double(window.getSize().y) + 0.5);
+                    * Complex(double(mouse_button_pressed->position.x) / double(window.getSize().x) - 0.5,
+                              -double(mouse_button_pressed->position.y) / double(window.getSize().y) + 0.5);
                 recalculate = true;
-                break;
-            case sf::Event::MouseWheelScrolled:
-                if (event.mouseWheelScroll.delta > 0)
+            } else if (const auto* mouse_wheel_scrolled = event.getIf<sf::Event::MouseWheelScrolled>()) {
+                if (mouse_wheel_scrolled->delta > 0)
                     extent /= 1.2;
-                else if (event.mouseWheelScroll.delta < 0)
+                else if (mouse_wheel_scrolled->delta < 0)
                     extent = std::min(extent * 1.2, max_extent);
                 recalculate = true;
-                break;
-            default:
-                break;
             }
         }
 
