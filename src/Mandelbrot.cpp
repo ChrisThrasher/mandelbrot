@@ -88,7 +88,7 @@ int main()
         = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot", sf::Style::Default ^ sf::Style::Resize);
     window.setFramerateLimit(60);
     while (window.isOpen()) {
-        for (auto event = sf::Event(); window.pollEvent(event);) {
+        while (const auto event = window.pollEvent()) {
             if (event.is<sf::Event::Closed>()) {
                 window.close();
             } else if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
