@@ -46,7 +46,7 @@ auto color(const int iterations, const int iteration_limit) noexcept -> sf::Colo
 
 int main()
 {
-    constexpr auto length = size_t(600);
+    constexpr auto length = std::size_t { 600 };
     constexpr auto initial_origin = Complex(-0.5, 0);
     constexpr auto initial_extent = Complex::value_type(2.5);
     constexpr auto initial_iteration_limit = 250;
@@ -72,12 +72,12 @@ int main()
     text.setOutlineColor(sf::Color::Black);
     text.setPosition({ 10, 5 });
 
-    const auto render_rows = [&image, &extent, &origin, &iteration_limit](const unsigned start,
-                                                                          const unsigned end) noexcept {
-        for (unsigned i = start; i < end; ++i)
-            for (unsigned j = 0; j < length; ++j)
+    const auto render_rows = [&image, &extent, &origin, &iteration_limit](const std::size_t start,
+                                                                          const std::size_t end) noexcept {
+        for (std::size_t i = start; i < end; ++i)
+            for (std::size_t j = 0; j < length; ++j)
                 image.setPixel(
-                    { j, i },
+                    sf::Vector2u(sf::Vector2(j, i)),
                     color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin,
                                     iteration_limit),
                           iteration_limit));
@@ -147,8 +147,8 @@ int main()
         if (recalculate) {
             recalculate = false;
 
-            const auto rows_per_thread = unsigned(length / threads.size());
-            for (unsigned i = 0; i < threads.size(); ++i)
+            const auto rows_per_thread = std::size_t(length / threads.size());
+            for (std::size_t i = 0; i < threads.size(); ++i)
                 threads[i] = std::thread(render_rows, i * rows_per_thread, (i + 1) * rows_per_thread);
             for (auto& thread : threads)
                 thread.join();
