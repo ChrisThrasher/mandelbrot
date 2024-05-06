@@ -8,19 +8,19 @@
 using Complex = std::complex<long double>;
 
 namespace {
-auto calculate(const Complex& c, const int max_iterations) noexcept
+auto calculate(const Complex& c, const int iteration_limit) noexcept
 {
     auto iterations = 0;
-    for (auto z = Complex(); std::norm(z) <= 4 && iterations < max_iterations; ++iterations)
+    for (auto z = Complex(); std::norm(z) <= 4 && iterations < iteration_limit; ++iterations)
         z = z * z + c;
     return iterations;
 }
 
-auto color(const int iterations, const int max_iterations) noexcept -> sf::Color
+auto color(const int iterations, const int iteration_limit) noexcept -> sf::Color
 {
     const auto hue = iterations % 360;
     const auto sat = 0.8f;
-    const auto val = (max_iterations == iterations) ? 0.f : 1.f;
+    const auto val = (iteration_limit == iterations) ? 0.f : 1.f;
 
     const auto h = hue / 60;
     const auto f = float(hue) / 60 - float(h);
@@ -50,7 +50,7 @@ int main()
     constexpr auto length = size_t(600);
     constexpr auto initial_origin = Complex(-0.5, 0);
     constexpr auto initial_extent = Complex::value_type(2.5);
-    constexpr auto initial_max_iterations = 250;
+    constexpr auto initial_iteration_limit = 250;
     constexpr auto max_extent = 4 * initial_extent;
 
     auto image = sf::Image();
@@ -58,7 +58,7 @@ int main()
 
     auto origin = initial_origin;
     auto extent = initial_extent;
-    auto max_iterations = initial_max_iterations;
+    auto iteration_limit = initial_iteration_limit;
     auto threads = std::vector<std::thread>(std::thread::hardware_concurrency());
     auto clock = sf::Clock();
     auto recalculate = true;
@@ -73,15 +73,15 @@ int main()
     text.setOutlineColor(sf::Color::Black);
     text.setPosition({ 10, 5 });
 
-    const auto render_rows = [&image, &extent, &origin, &max_iterations](const unsigned start,
-                                                                         const unsigned end) noexcept {
+    const auto render_rows = [&image, &extent, &origin, &iteration_limit](const unsigned start,
+                                                                          const unsigned end) noexcept {
         for (unsigned i = start; i < end; ++i)
             for (unsigned j = 0; j < length; ++j)
                 image.setPixel(
                     { j, i },
                     color(calculate(extent * Complex(double(j) / length - 0.5, -double(i) / length + 0.5) + origin,
-                                    max_iterations),
-                          max_iterations));
+                                    iteration_limit),
+                          iteration_limit));
     };
 
     auto window
@@ -117,13 +117,13 @@ int main()
                 case sf::Keyboard::Scan::R:
                     origin = initial_origin;
                     extent = initial_extent;
-                    max_iterations = initial_max_iterations;
+                    iteration_limit = initial_iteration_limit;
                     break;
                 case sf::Keyboard::Scan::RBracket:
-                    max_iterations += 25;
+                    iteration_limit += 25;
                     break;
                 case sf::Keyboard::Scan::LBracket:
-                    max_iterations = std::max(max_iterations - 25, 25);
+                    iteration_limit = std::max(iteration_limit - 25, 25);
                     break;
                 default:
                     break;
@@ -164,7 +164,7 @@ int main()
 
         auto text_builder = std::ostringstream();
         text_builder << std::setw(2) << int(1 / clock.restart().asSeconds()) << " fps\n";
-        text_builder << max_iterations << " iters\n";
+        text_builder << iteration_limit << " iters\n";
         text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
         text.setString(text_builder.str());
     }
