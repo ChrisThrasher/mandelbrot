@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 
-#include <array>
 #include <complex>
 #include <iomanip>
 #include <thread>
