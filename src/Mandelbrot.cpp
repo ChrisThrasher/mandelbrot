@@ -63,7 +63,7 @@ int main()
     auto recalculate = true;
     auto texture = sf::Texture();
     auto font = sf::Font();
-    if (!font.loadFromFile(FONT_PATH / std::filesystem::path("font.ttf")))
+    if (!font.loadFromFile("data/font.ttf"))
         throw std::runtime_error("Failed to load font");
 
     auto text = sf::Text(font, "", 24);

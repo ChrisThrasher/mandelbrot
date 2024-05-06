@@ -18,7 +18,6 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/Mandelbrot.cpp)
 target_link_libraries(mandelbrot PRIVATE SFML::Graphics Threads::Threads)
-target_compile_definitions(mandelbrot PRIVATE FONT_PATH="${CMAKE_SOURCE_DIR}/data")
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.hpp *.cpp`
@@ -26,4 +25,6 @@ add_custom_target(format
 add_custom_target(tidy
     COMMAND run-clang-tidy -p ${CMAKE_BINARY_DIR} `git ls-files *.cpp`
     WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-add_custom_target(run COMMAND mandelbrot)
+add_custom_target(run
+    COMMAND mandelbrot
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
