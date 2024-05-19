@@ -52,8 +52,7 @@ int main()
     constexpr auto initial_iteration_limit = 250;
     constexpr auto max_extent = 4 * initial_extent;
 
-    auto image = sf::Image();
-    image.create({ length, length });
+    auto image = sf::Image({ length, length });
 
     auto origin = initial_origin;
     auto extent = initial_extent;
@@ -62,9 +61,7 @@ int main()
     auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = sf::Texture();
-    auto font = sf::Font();
-    if (!font.loadFromFile("data/font.ttf"))
-        throw std::runtime_error("Failed to load font");
+    const auto font = sf::Font::loadFromFile("data/font.ttf").value();
 
     auto text = sf::Text(font, "", 24);
     text.setFillColor(sf::Color::White);
