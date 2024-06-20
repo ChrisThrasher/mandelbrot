@@ -108,7 +108,7 @@ int main()
                     extent /= 1.5;
                     break;
                 case sf::Keyboard::Scan::S:
-                    extent = std::min(extent * 1.2, max_extent);
+                    extent = std::min(extent * 1.5, max_extent);
                     break;
                 case sf::Keyboard::Scan::R:
                     origin = initial_origin;
