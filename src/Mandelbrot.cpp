@@ -1,3 +1,4 @@
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include <complex>
@@ -63,6 +64,10 @@ int main()
     auto texture = std::optional<sf::Texture>();
     const auto font = sf::Font::loadFromFile("data/font.ttf").value();
 
+    const auto sound_buffer = sf::SoundBuffer::loadFromFile("data/beep.wav").value();
+    auto zoom_sound = sf::Sound(sound_buffer);
+    zoom_sound.setVolume(25);
+
     auto text = sf::Text(font, "", 24);
     text.setFillColor(sf::Color::White);
     text.setOutlineThickness(2);
@@ -106,9 +111,15 @@ int main()
                     break;
                 case sf::Keyboard::Scan::W:
                     extent /= 1.5;
+                    zoom_sound.setPitch(zoom_sound.getPitch() * 1.02f);
+                    zoom_sound.play();
                     break;
                 case sf::Keyboard::Scan::S:
-                    extent = std::min(extent * 1.5, max_extent);
+                    if (extent * 1.5 <= max_extent) {
+                        extent = extent * 1.5;
+                        zoom_sound.setPitch(zoom_sound.getPitch() / 1.02f);
+                        zoom_sound.play();
+                    }
                     break;
                 case sf::Keyboard::Scan::R:
                     origin = initial_origin;

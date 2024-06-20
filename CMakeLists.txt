@@ -11,13 +11,12 @@ elseif(MSVC)
 endif()
 
 include(FetchContent)
-set(SFML_BUILD_AUDIO OFF)
 set(SFML_BUILD_NETWORK OFF)
 FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git)
 FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/Mandelbrot.cpp)
-target_link_libraries(mandelbrot PRIVATE SFML::Graphics Threads::Threads)
+target_link_libraries(mandelbrot PRIVATE SFML::Graphics SFML::Audio Threads::Threads)
 
 add_custom_target(format
     COMMAND clang-format -i `git ls-files *.hpp *.cpp`

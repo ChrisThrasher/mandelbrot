@@ -11,6 +11,7 @@ Checks: >
   readability-*,
   -bugprone-easily-swappable-parameters,
   -bugprone-exception-escape,
+  -bugprone-unchecked-optional-access,
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-pro-type-union-access,
   -misc-include-cleaner,
