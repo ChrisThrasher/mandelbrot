@@ -89,10 +89,10 @@ int main()
         = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot", sf::Style::Default ^ sf::Style::Resize);
     window.setFramerateLimit(60);
     while (window.isOpen()) {
-        while (const auto event = window.pollEvent()) {
-            if (event.is<sf::Event::Closed>()) {
+        while (const std::optional event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
                 window.close();
-            } else if (const auto* key_pressed = event.getIf<sf::Event::KeyPressed>()) {
+            } else if (const auto* key_pressed = event->getIf<sf::Event::KeyPressed>()) {
                 switch (key_pressed->scancode) {
                 case sf::Keyboard::Scan::Escape:
                     window.close();
@@ -136,12 +136,12 @@ int main()
                     break;
                 }
                 recalculate = true;
-            } else if (const auto* mouse_button_pressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+            } else if (const auto* mouse_button_pressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 origin += extent
                     * Complex(double(mouse_button_pressed->position.x) / double(window.getSize().x) - 0.5,
                               -double(mouse_button_pressed->position.y) / double(window.getSize().y) + 0.5);
                 recalculate = true;
-            } else if (const auto* mouse_wheel_scrolled = event.getIf<sf::Event::MouseWheelScrolled>()) {
+            } else if (const auto* mouse_wheel_scrolled = event->getIf<sf::Event::MouseWheelScrolled>()) {
                 if (mouse_wheel_scrolled->delta > 0)
                     extent /= 1.2;
                 else if (mouse_wheel_scrolled->delta < 0)
