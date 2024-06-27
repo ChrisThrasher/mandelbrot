@@ -125,6 +125,7 @@ int main()
                     origin = initial_origin;
                     extent = initial_extent;
                     iteration_limit = initial_iteration_limit;
+                    zoom_sound.setPitch(1);
                     break;
                 case sf::Keyboard::Scan::RBracket:
                     iteration_limit += 25;
