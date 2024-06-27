@@ -62,7 +62,7 @@ int main()
     auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = std::optional<sf::Texture>();
-    const auto font = sf::Font::loadFromFile("data/font.ttf").value();
+    const auto font = sf::Font::openFromFile("data/font.ttf").value();
 
     const auto sound_buffer = sf::SoundBuffer::loadFromFile("data/beep.wav").value();
     auto zoom_sound = sf::Sound(sound_buffer);
