@@ -88,14 +88,14 @@ int main()
     auto window
         = sf::RenderWindow(sf::VideoMode({ length, length }), "Mandelbrot", sf::Style::Default ^ sf::Style::Resize);
     window.setFramerateLimit(60);
-    while (window.isOpen()) {
+    while (true) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
-                window.close();
+                return 0;
             } else if (const auto* key_pressed = event->getIf<sf::Event::KeyPressed>()) {
                 switch (key_pressed->scancode) {
                 case sf::Keyboard::Scan::Escape:
-                    window.close();
+                    return 0;
                     break;
                 case sf::Keyboard::Scan::Up:
                     origin = { origin.real(), origin.imag() + extent / 25 };
