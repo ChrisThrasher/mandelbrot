@@ -12,7 +12,7 @@ endif()
 
 include(FetchContent)
 set(SFML_BUILD_NETWORK OFF)
-FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git)
+FetchContent_Declare(SFML GIT_REPOSITORY https://github.com/SFML/SFML.git GIT_TAG ae87def93e7b0280b5826b0fa5e1a8ef7156e9e7)
 FetchContent_MakeAvailable(SFML)
 
 add_executable(mandelbrot src/Mandelbrot.cpp)

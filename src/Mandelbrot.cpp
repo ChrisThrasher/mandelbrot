@@ -53,7 +53,7 @@ int main()
     constexpr auto initial_iteration_limit = 250;
     constexpr auto max_extent = 4 * initial_extent;
 
-    auto image = sf::Image({ length, length });
+    auto image = sf::Image(sf::Vector2u(length, length));
 
     auto origin = initial_origin;
     auto extent = initial_extent;
@@ -62,9 +62,9 @@ int main()
     auto clock = sf::Clock();
     auto recalculate = true;
     auto texture = std::optional<sf::Texture>();
-    const auto font = sf::Font::openFromFile("data/font.ttf").value();
+    const auto font = sf::Font("data/font.ttf");
 
-    const auto sound_buffer = sf::SoundBuffer::loadFromFile("data/beep.wav").value();
+    const auto sound_buffer = sf::SoundBuffer("data/beep.wav");
     auto zoom_sound = sf::Sound(sound_buffer);
     zoom_sound.setVolume(25);
 
@@ -162,7 +162,7 @@ int main()
             for (auto& thread : threads)
                 thread.join();
 
-            texture = sf::Texture::loadFromImage(image).value();
+            texture = sf::Texture(image);
         }
 
         window.draw(sf::Sprite(*texture));
