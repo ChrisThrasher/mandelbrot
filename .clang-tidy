@@ -18,6 +18,7 @@ Checks: >
   -readability-function-cognitive-complexity,
   -readability-identifier-length,
   -readability-magic-numbers,
+  -readability-math-missing-parentheses,
   -readability-uppercase-literal-suffix,
 CheckOptions:
   - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }
