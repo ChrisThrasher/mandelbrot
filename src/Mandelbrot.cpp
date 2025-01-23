@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <complex>
-#include <iomanip>
+#include <format>
 #include <thread>
 
 using Complex = std::complex<long double>;
@@ -169,10 +169,9 @@ int main()
         window.draw(text);
         window.display();
 
-        auto text_builder = std::ostringstream();
-        text_builder << std::setw(2) << int(1 / clock.restart().asSeconds()) << " fps\n";
-        text_builder << iteration_limit << " iters\n";
-        text_builder << std::setprecision(1) << std::scientific << initial_extent / extent << '\n';
-        text.setString(text_builder.str());
+        text.setString(std::format("{:2} fps\n{} iters\n{:1.1e}\n",
+                                   int(1 / clock.restart().asSeconds()),
+                                   iteration_limit,
+                                   initial_extent / extent));
     }
 }
